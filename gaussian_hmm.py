@@ -206,8 +206,6 @@ class gaussian_hmm:
 
             for stateN_1 in np.arange(k_states):
                 for stateN in np.arange(k_states):
-                    #M[stateN_1][stateN] = alpha[n - 1][stateN_1] * norm.pdf(X[n], phi[stateN][0], phi[stateN][1]) * \
-                                          #A[stateN_1][stateN] * beta[n][stateN]
                     M[stateN_1][stateN] = 2e-20 + alpha[n - 1][stateN_1] * self.get_emission(n,stateN) * \
                                           A[stateN_1][stateN] * beta[n][stateN]
 
@@ -245,17 +243,15 @@ class gaussian_hmm:
 
         self.phi = phi
 
-
-
-
-
-
     def maximization_step(self):
         self.recalculate_A()
         self.get_emission_parameters()
 
 
-
+    def fit(self):
+        for i in np.arange(5):
+            self.expectation_prime_step()
+            self.maximization_step()
 
 
 
@@ -270,8 +266,8 @@ model.beta_prime_recursion()
 model.expectation_prime_step()
 model.maximization_step()
 
-#model.expectation_prime_step()
-#model.maximization_step()
+model.expectation_prime_step()
+model.maximization_step()
 
 #print(model.A)
 np.set_printoptions(threshold=np.inf)
