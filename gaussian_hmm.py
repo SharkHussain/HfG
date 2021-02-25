@@ -17,7 +17,7 @@ X = np.concatenate(( X, Y, X, Z))
 
 #The parameters only for Gaussian
 A=np.random.rand(3, 3); A = A/A.sum(axis=1)[:, np.newaxis]
-phi = [[0.1, 1.2],[10, 1], [3, 2]]
+phi = [[0, 1.2],[10, 2], [3, 2]]
 
 
 
@@ -236,12 +236,12 @@ class gaussian_hmm:
         z_X = self.z_X
         K = self.k_states
         phi = self.phi
-        X = X.reshape(N,1)
+        #X = X.reshape(N,1)
 
         for k in np.arange(K):
             phi[k][0] = sum(z_X[:, k] * X) / sum(z_X[:, k])
             # Sigma is working, need to re-write this code
-            #phi[k][1] =
+            phi[k][1] = sum((X - phi[k][0])*(X-phi[k][0])*z_X[:,k])/sum(z_X[:,k])
 
         self.phi = phi
 
@@ -275,7 +275,14 @@ model.maximization_step()
 
 #print(model.A)
 np.set_printoptions(threshold=np.inf)
-print(model.z_X)
+#print(model.z_X)
 print(model.phi)
+
+
+z_X = model.z_X
+k = 0
+
+
+
 
 
