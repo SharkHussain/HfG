@@ -17,7 +17,7 @@ X = np.concatenate(( X, Y, X, Z))
 
 #The parameters only for Gaussian
 A=np.random.rand(3, 3); A = A/A.sum(axis=1)[:, np.newaxis]
-phi = [[0, 1.2],[10, 2], [3, 2]]
+phi = [[0, 1.2],[5, 2], [1, 2]]
 
 
 
@@ -238,7 +238,6 @@ class gaussian_hmm:
 
         for k in np.arange(K):
             phi[k][0] = sum(z_X[:, k] * X) / sum(z_X[:, k])
-            # Sigma is working, need to re-write this code
             phi[k][1] = sum((X - phi[k][0])*(X-phi[k][0])*z_X[:,k])/sum(z_X[:,k])
 
         self.phi = phi
@@ -249,7 +248,7 @@ class gaussian_hmm:
 
 
     def fit(self):
-        for i in np.arange(5):
+        for i in np.arange(15):
             self.expectation_prime_step()
             self.maximization_step()
 
@@ -258,16 +257,17 @@ class gaussian_hmm:
 ######Testing scrip here
 
 model = gaussian_hmm(A, X, phi)
-model.alpha_prime_recursion()
-model.beta_prime_recursion()
+model.fit()
+#model.alpha_prime_recursion()
+#model.beta_prime_recursion()
 #model.alpha_recursion()
 #model.beta_recursion()
 
-model.expectation_prime_step()
-model.maximization_step()
+#model.expectation_prime_step()
+#model.maximization_step()
 
-model.expectation_prime_step()
-model.maximization_step()
+#model.expectation_prime_step()
+#model.maximization_step()
 
 #print(model.A)
 np.set_printoptions(threshold=np.inf)
@@ -275,8 +275,8 @@ np.set_printoptions(threshold=np.inf)
 print(model.phi)
 
 
-z_X = model.z_X
-k = 0
+#z_X = model.z_X
+#k = 0
 
 
 
